@@ -70,9 +70,16 @@ https://你的GitHub用户名.github.io/hd2-stratagems/index.json
 
 2. 在弹窗里选择 **自定义** 通道。
 
-3. 把上面的 `index.json` 地址粘贴到输入框。
+3. 把地址粘贴到输入框（**注意地址格式随 App 版本不同，见下方「版本差异」**）。
 
 4. 点击 `更新数据库`，等待下载完成（会提示 `数据库更新完成`）。
+
+> **⚠️ 版本差异（重要）**
+>
+> - **App 版本 ≤ 0.5.2-patch1（旧版）**：填**文件夹地址**，**不要带 `index.json`**。旧版会自动在你填的地址后面补 `index.json`，填了完整地址会拼成 `index.json/index.json` 导致更新失败。例如填：
+>   - aiforce：`https://4m2tb4cxus6tb.aiforce.cloud/app/app_17ebbuzdqye`
+>   - GitHub：`https://zhenglixiang00-dot.github.io/hd2-stratagems`
+> - **App 版本 ≥ 0.6.2（新版）**：两种都支持——可以填上面的文件夹地址，也可以填完整的 `index.json` 地址。
 
 > 若想回到官方数据库：同样的弹窗里选择 
 >
@@ -89,19 +96,40 @@ https://你的GitHub用户名.github.io/hd2-stratagems/index.json
 >
 >  会显示「可更新」。
 
-## 三、以后怎么加新战备
+## 三、以后怎么加新战备（完整更新流程）
 
-使用配套的「战备管理站」网页工具：
+**第 1 步：在「战备管理站」改并导出**
 
-
-
-1. 打开 `stratagem-studio/index.html`。
-
+1. 打开 `stratagem-studio/index.html`（单文件，双击即可用）。
 2. 点「新增战备」：填英文名、中文名、上传图标（SVG）、按方向键录入箭头序列（上 = 1 下 = 2 左 = 3 右 = 4）。
+3. 点「导出数据包」下载 zip（每次导出会自动更新版本时间，手机端才会提示可更新）。
 
-3. 点「导出数据包」下载 zip，解压后得到新的 `index.json` 与 `database/`。
+**第 2 步：解压 zip，了解要传哪些**
 
-4. 把新文件覆盖上传到你的托管位置 → 手机端再点一次「更新数据库」。
+```
+解压后:
+├── index.json              ← 清单（必传）
+├── database/
+│   ├── stratagem_db.json   ← 战备数据本体（必传）
+│   └── icons/              ← 图标（只在新增/更换图标时才传）
+└── index.html              ← 落地页，App 不读，不用管
+```
+
+**第 3 步：上传到 GitHub（https://github.com/zhenglixiang00-dot/hd2-stratagems）**
+
+- **只改了名字/方向码/排序**（没新增图标）→ 只需传 2 个文件覆盖：
+  - 仓库根目录的 `index.json`
+  - 仓库 `database/` 里的 `stratagem_db.json`
+- **新增了战备** → 上面 2 个文件之外，再把**新图标 SVG** 传进 `database/icons/`：
+  1. 仓库里点进 `database` 文件夹 → 再点进 `icons` 文件夹
+  2. 点右上角 **Add file → Upload files**
+  3. 把新图标 SVG 拖进去 → Commit changes
+
+> 注意：网页上传只能传到「当前所在的文件夹」，所以进到哪个文件夹再上传，文件就进哪个文件夹；目录结构保持 `根目录 index.json + database/` 不变。
+
+**第 4 步：手机 App 更新**
+
+等 1~2 分钟让 GitHub Pages 生效 → 手机 App → 设置 > 信息 > 数据库版本 → 自定义 → 点「更新数据库」，提示完成即成功。
 
 ## 四、格式说明（给想直接改 JSON 的人）
 
